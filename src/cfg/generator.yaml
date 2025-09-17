@@ -1,0 +1,20 @@
+# in_channles = batch_size * noise_dim * input_factor
+# out_channels = features * output_factor 
+
+generator:
+  # [input_factor, output_factor, kernel_size, stride, padding]
+  - [ConvTransposeBlock, [100, 128, 11, 1, 0]]
+  - [ConvTransposeBlock, [128, 256, 9, 1, 0]]
+  - [Conv, [256, 128, 5, 1, 2]]
+  - [Conv, [128, 128, 5, 1, 2]]
+  - [ConvTransposeBlock, [128, 128, 9, 2, 0]]
+  - [Conv, [128, 64, 5, 1, 2]]
+  - [ConvTransposeBlock, [64, 32, 11, 1, 0]]
+  - [Conv, [32, 32, 5, 1, 2]]
+  # [input_factor, out_channels, kernel_size, stride, padding]
+  - [ConvTranspose2d, [32, 3, 10, 1, 0]]
+  - [Tanh, [True]]
+
+cfg:
+  noise_dim: 100
+  features: 64
